@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cricket-Predictor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript">
+    function validateForm() {
+        var x = document.forms["myform"]["balls_remaining"].value;
+        if (x > 300 || x<1) {
+          alert("Balls Remaining must be between 1 and 300");
+          return false;
+        }
+        x = document.forms["myform"]["wickets_remaining"].value;
+        if (x >= 11 || x<1) {
+          alert("Wickets remaining must be between 1 and 10");
+          return false;
+        }
+        x = document.forms["myform"]["pp_balls_rem"].value;
+        if (x >= 61 || x<0) {
+          alert("Powerplay balls remaining must be between 0 and 60");
+          return false;
+        }
+        x = document.forms["myform"]["cur_runs"].values;
+        if(x<0){
+          alert("Current runs cannot be negative");
+          return false;
+        }
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+      <div class="container">
+          <div class="jumbotron text-center">
+              <h1>Cricket Score Predictor</h1>
+          </div>
+      </div>
+      <div class="container text-center">
+        <h3>Enter the details of your match to predict the runs scored</h3>
+      </div>
+      <div class="container">
+        <form class="" name="myform" method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="form-group">
+              Balls Remaining: <br>
+              <input type="number" name="balls_remaining" value="" required><br>
+            </div>
+
+            <div class="form-group">
+              Wickets Remaining: <br>
+              <input type="number" name="wickets_remaining" value="" required><br>
+            </div>
+
+            <div class="form-group">
+              Venue of Play: <br>
+
+              <select name="venue" class="form-control">
+                {% for venue in ground_stats %}
+                <p>{{venue}}</p>
+                <option value="{{venue}}">{{venue}}</option>
+                {% endfor %}
+              </select> <br>
+
+            </div>
+
+            <div class="form-group">
+              PowerPlay Balls Remaining: <br>
+              <input type="number" name="pp_balls_rem" value="" required><br>
+            </div>
+
+            <div class="form-group">
+              Current Runs: <br>
+              <input type="number" name="cur_runs" value="" required><br>
+            </div>
+            
+            <div class="form-group">
+              <button type="submit" class="btn btn-success">Predict</button>
+            </div>
+
+        </form>
+      </div>
+
+
+  </body>
+</html>
